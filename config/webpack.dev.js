@@ -3,6 +3,9 @@ const webpack = require('webpack')
 const common = require('./webpack.common')
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const path = require('path')
+const cwd = process.cwd();
+const {getStyleLoaders, getBabelLoaders} = require('../lib/utils')
+
 module.exports = merge(common, {
     mode: 'development',
     devtool: 'eval-cheap-module-source-map',
@@ -11,20 +14,35 @@ module.exports = merge(common, {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: {
-                    loader: require.resolve('babel-loader'),
-                    options: {
-                        presets: [
-                            require.resolve('@babel/preset-react'),
-                            require.resolve('@babel/preset-env')
-                        ],
-                        plugins: [
-                            require.resolve('react-refresh/babel')
-                        ],
-                        cacheDirectory: true,
-                        cacheCompression: false
-                    },
-                }
+                use: getBabelLoaders('development')
+            },
+            {
+                test: /\.css$/,
+                exclude: /\.module\.css$/,
+                use: getStyleLoaders('development', {
+                    importLoaders: 1
+                })
+            },
+            {
+                test: /\.module\.css$/,
+                use: getStyleLoaders('development', {
+                    modules: true,
+                    importLoaders: 1
+                })
+            },
+            {
+                test: /\.scss$/,
+                exclude: /\.module\.scss$/,
+                use: getStyleLoaders('development', {
+                    importLoaders: 3
+                }, 'sass'),
+            },
+            {
+                test: /\.module\.scss$/,
+                use: getStyleLoaders('development', {
+                    modules: true,
+                    importLoaders: 3
+                }, 'sass')
             },
         ]
     },

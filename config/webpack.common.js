@@ -4,42 +4,6 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
 const cwd = process.cwd();
 
-/**
- * 获取处理样式的Loaders
- */
-const getStyleLoaders = (cssLoaderOptions, otherLoader = '') => {
-    const loaders = [
-        require.resolve('style-loader'),
-        {
-            loader: require.resolve('css-loader'),
-            options: cssLoaderOptions
-        },
-        {
-            loader: require.resolve('postcss-loader'),
-            options: {
-                postcssOptions: {
-                    plugins: [
-                        require.resolve('postcss-preset-env')
-                    ]
-                }
-            }
-        }
-    ];
-    switch (otherLoader) {
-        case "sass":
-            loaders.push(require.resolve('sass-loader'))
-            loaders.push({
-                loader: require.resolve('sass-resources-loader'),
-                options: {
-                    resources: [path.join(cwd, 'src/assets/scss/_variables.scss')]
-                }
-            })
-            break;
-        default:
-            break;
-    }
-    return loaders;
-}
 module.exports = {
     entry: path.join(cwd, 'src/index.js'),
     output: {
@@ -49,24 +13,6 @@ module.exports = {
     target: 'web',
     module: {
         rules: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: require.resolve('babel-loader'),
-                    options: {
-                        presets: [
-                            require.resolve('@babel/preset-react'),
-                            require.resolve('@babel/preset-env')
-                        ],
-                        plugins: [
-                            require.resolve('@babel/plugin-syntax-dynamic-import')
-                        ],
-                        cacheDirectory: true,
-                        cacheCompression: false
-                    },
-                }
-            },
             {
                 test: /\.(png|jpg|jpeg|gif|bmp)$/,
                 type: "asset/resource"
@@ -79,35 +25,6 @@ module.exports = {
                 test: /\.txt$/,
                 type: "asset/source"
             },
-            {
-                test: /\.css$/,
-                exclude: /\.module\.css$/,
-                use: getStyleLoaders({
-                    importLoaders: 1
-                })
-            },
-            {
-                test: /\.module\.css$/,
-                use: getStyleLoaders({
-                    modules: true,
-                    importLoaders: 1
-                })
-            },
-            {
-                test: /\.scss$/,
-                exclude: /\.module\.scss$/,
-                use: getStyleLoaders({
-                    importLoaders: 3
-                }, 'sass'),
-            },
-            {
-                test: /\.module\.scss$/,
-                use: getStyleLoaders({
-                    modules: true,
-                    importLoaders: 3
-                }, 'sass')
-            },
-
         ]
     },
     plugins: [
