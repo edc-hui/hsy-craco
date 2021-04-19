@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
+const WebpackBar = require('webpackbar');
+
 const {getCustomConfig} = require("../lib/utils")
 const cwd = process.cwd();
 
@@ -16,7 +18,13 @@ module.exports = {
         rules: [
             {
                 test: /\.(png|jpg|jpeg|gif|bmp)$/,
-                type: "asset/resource"
+                // type: "asset/resource",
+                type: "asset",
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024
+                    }
+                }
             },
             {
                 test: /\.svg$/,
@@ -29,6 +37,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new WebpackBar(),
         new HtmlWebpackPlugin({
             template: path.join(cwd, 'public/index.html'),
             filename: "index.html",
