@@ -2,15 +2,16 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const StylelintWebpackPlugin = require('stylelint-webpack-plugin');
+const {getCustomConfig} = require("../lib/utils")
 const cwd = process.cwd();
 
+const configObj = getCustomConfig();
+console.log(configObj, '配置对象')
+
 module.exports = {
-    entry: path.join(cwd, 'src/index.js'),
-    output: {
-        filename: "[name].[fullhash:8].js",
-        path: path.join(cwd, 'dist')
-    },
-    target: 'web',
+    entry: configObj.entry,
+    output: configObj.output,
+    target: configObj.target,
     module: {
         rules: [
             {

@@ -5,11 +5,11 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const cwd = process.cwd();
-const {getStyleLoaders, getBabelLoaders} = require('../lib/utils')
-
+const {getStyleLoaders, getBabelLoaders, getCustomConfig} = require('../lib/utils')
+const configObj = getCustomConfig();
 module.exports = merge(common, {
     mode: 'production',
-    devtool: false,
+    devtool: configObj.devtool.production,
     module: {
         rules: [
             {

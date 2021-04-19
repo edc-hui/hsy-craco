@@ -4,11 +4,11 @@ const common = require('./webpack.common')
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const path = require('path')
 const cwd = process.cwd();
-const {getStyleLoaders, getBabelLoaders} = require('../lib/utils')
-
+const {getStyleLoaders, getBabelLoaders, getCustomConfig} = require('../lib/utils')
+const configObj = getCustomConfig();
 module.exports = merge(common, {
     mode: 'development',
-    devtool: 'eval-cheap-module-source-map',
+    devtool: configObj.devtool.development,
     module: {
         rules: [
             {
@@ -50,9 +50,5 @@ module.exports = merge(common, {
         new ReactRefreshPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
-    devServer: {
-        open: false,
-        port: 3000,
-        hotOnly: true,
-    }
+    devServer: configObj.devServer
 })
