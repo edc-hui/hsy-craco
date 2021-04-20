@@ -22,28 +22,28 @@ module.exports = merge(common, {
                 test: /\.css$/,
                 exclude: /\.module\.css$/,
                 use: getStyleLoaders('production', {
-                    importLoaders: 1
+                    importLoaders: 2
                 })
             },
             {
                 test: /\.module\.css$/,
                 use: getStyleLoaders('production', {
                     modules: true,
-                    importLoaders: 1
+                    importLoaders: 2
                 })
             },
             {
                 test: /\.scss$/,
                 exclude: /\.module\.scss$/,
                 use: getStyleLoaders('production', {
-                    importLoaders: 3
+                    importLoaders: 4
                 }, 'sass'),
             },
             {
                 test: /\.module\.scss$/,
                 use: getStyleLoaders('production', {
                     modules: true,
-                    importLoaders: 3
+                    importLoaders: 4
                 }, 'sass')
             },
         ]
