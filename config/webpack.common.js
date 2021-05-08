@@ -8,7 +8,6 @@ const {getCustomConfig} = require("../lib/utils")
 const cwd = process.cwd();
 
 const configObj = getCustomConfig();
-console.log(configObj, '配置对象')
 
 module.exports = {
     entry: configObj.entry,
