@@ -1,6 +1,6 @@
 {
   "name": "@huisiyu/hsy-craco",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "可复用的 webpack 5 模块打包器",
   "main": "lib/index.js",
   "bin": {
@@ -18,7 +18,8 @@
   ],
   "files": [
     "bin",
-    "config"
+    "config",
+    "lib"
   ],
   "repository": {
     "type": "git",
